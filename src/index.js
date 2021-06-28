@@ -14,3 +14,9 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+
+/*
+
+we bring in our app, base.css index.css, this is where all we worked on finally ends up (note: notice there is no export on this as all exported components will eventually end up here)
+
+*/ 
