@@ -11,3 +11,9 @@ export class Home extends Component {
 }
 
 export default Home;
+
+/*
+
+Home.js is created as the app's home page that welcomes the user. In order to make more readable code, we do not directly put the Home.js code in the app.js file.
+
+*/

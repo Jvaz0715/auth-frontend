@@ -40,3 +40,5 @@ div ul li a {
 .right-side-nav ul li:not(:last-child) {
   margin-right: 15px;
 }
+
+/* This is the stylesheet that styles the navigation bar */
