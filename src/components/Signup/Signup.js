@@ -1,11 +1,17 @@
 import React, { Component } from "react";
-
+// We use validator on the clientside to validate we put parameters on how a user can sign up
 import { isAlpha, isEmail, isAlphanumeric, isStrongPassword } from "validator";
+
+// toast is used to create message cards if a user successfully signs up or if the user tries to sign up with existing database information
 import { toast } from "react-toastify";
+
 import Axios from "../utils/Axios";
+//we get our axios from the axios.js file. axios is a fetch dependency that makes it easier to make and post requests on the front end
+
 import "./Signup.css";
 
 export class Signup extends Component {
+  // we have our state that will include the keys for a user. We also use state to set a start state of our submit button (we start with it disabled)
   state = {
     firstName: "",
     lastName: "",
@@ -28,6 +34,8 @@ export class Signup extends Component {
     confirmPasswordOnFocus: false,
   };
 
+  //handleOnChange is our function that will fire when we add text in the input fields of signup.
+  // this function includes various helper functions to make easier to read code
   handleOnChange = (event) => {
     this.setState(
       {
@@ -59,6 +67,8 @@ export class Signup extends Component {
     );
   };
 
+  // we use the following function to validate our confirm password is correct
+  //if passwords dont match we disable our button, else we set an empty error message
   handleConfirmPasswordInput = () => {
     if (this.state.password !== this.state.confirmPassword) {
       this.setState({
@@ -71,7 +81,9 @@ export class Signup extends Component {
       });
     }
   };
-
+  
+  // we use the following function to validate our password is correct
+  //if password does not meet the requirements we disable our button, else we set an empty error message
   handlePasswordInput = () => {
     if (this.state.confirmPasswordOnFocus) {
       if (this.state.password !== this.state.confirmPassword) {
@@ -106,6 +118,8 @@ export class Signup extends Component {
     }
   };
 
+  // we use the following function to validate our email is correct
+  //if email does not meet the requirements we disable our button, else we set an empty error message
   handleEmailInput = () => {
     if (this.state.email.length === 0) {
       this.setState({
@@ -126,6 +140,8 @@ export class Signup extends Component {
     }
   };
 
+  // we use the following function to validate our first and last name are correct
+  //if the names do not meet the requirements we disable our button, else we set an empty error message
   handleFirstNameAndLastNameInput = (event) => {
     if (this.state[event.target.name].length > 0) {
       if (isAlpha(this.state[event.target.name])) {
@@ -146,6 +162,8 @@ export class Signup extends Component {
     }
   };
 
+  // we use the following function to validate our password is correct
+  //if password does not meet the requirements we disable our button, else we set an empty error message
   handleUsernameInput = () => {
     if (this.state.username.length === 0) {
       this.setState({
@@ -165,10 +183,12 @@ export class Signup extends Component {
       }
     }
   };
-
+  
+  // handleOnSubmit is the bulk of our code that will create a new user, and check if any of our unique keys already exists in the database
   handleOnSubmit = async (event) => {
+    // this will prevent the browser from constantly refreshing
     event.preventDefault();
-
+    // try to create a new user
     try {
       let userInputObj = {
         firstName: this.state.firstName,
@@ -177,14 +197,18 @@ export class Signup extends Component {
         username: this.state.username,
         password: this.state.password,
       };
+      //we use axios to post our new user with the userInputObj
       let success = await Axios.post("/api/user/sign-up", userInputObj);
       console.log(success);
+      // we use toast to deliver a success message card
       toast.success(`${success.data.message}`);
     } catch (e) {
+      // we use toast to deliver an error message card
       toast.error(`${e.response.data.message}`);
     }
   };
 
+  // this function is used so that if a user clicks inside an input field, does not type anything and clicks off the input field, a message will be delivered that something needs to be typed
   handleOnBlur = (event) => {
     // console.log(event.target.name);
     // console.log("handle onBlur Triggered");
@@ -196,6 +220,8 @@ export class Signup extends Component {
     }
   };
 
+
+  //if fields are properly filled out, this function will both make sure the submit button becomes available, but also if anyhing is changed in the fields to make the paramaters incorrect, the button becomes disabled again
   componentDidUpdate(prevProps, prevState) {
     if (prevState.isButtonDisabled === true) {
       if (
@@ -223,6 +249,7 @@ export class Signup extends Component {
     }
   }
 
+  //if on focus is false, we change the onfocus to true for the given key/inputfield
   handleInputOnFocus = (event) => {
     if (!this.state[`${event.target.name}OnFocus`]) {
       this.setState({
@@ -230,7 +257,7 @@ export class Signup extends Component {
       });
     }
   };
-
+  // below we render the sign up page
   render() {
     const {
       firstName,
