@@ -141,3 +141,5 @@ select {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
+/* _base.css is a default css in case any of our css breaks  */
